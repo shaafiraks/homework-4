@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box;
+}
+.album-item {
+  max-width: 1000px;
+  min-width: 350px;
+  border: 0px solid black;
+  text-align: center;
+  background-color: rgb(250, 187, 7);
+  color: rgb(247, 246, 249);
+}
+
+.artist-name {
+  color: rgb(109, 105, 112);
+  opacity: 0.85;
+}
+
+.album-image {
+}

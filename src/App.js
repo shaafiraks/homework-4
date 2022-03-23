@@ -1,0 +1,19 @@
+import Album from "./components/Album";
+import spotify from "./data/songs.json";
+import "./App.css";
+
+function App() {
+  return (
+    <div className="App">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+      <header className="app-header"></header>
+      <body className="app-body">
+        <div className="album-container">
+          <Album image={spotify.album.images[0].url} name={spotify.album.name} type={spotify.album.type} artist={spotify.album.artists[0].name} />
+        </div>
+      </body>
+    </div>
+  );
+}
+
+export default App;
