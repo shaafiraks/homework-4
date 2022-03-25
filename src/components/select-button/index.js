@@ -2,8 +2,8 @@ import React from "react";
 
 const SelectButton = () => {
   return (
-    <div className="select-button">
-      <button>Select</button>
+    <div className="select-page">
+      <button className="select-button">Select</button>
     </div>
   );
 };

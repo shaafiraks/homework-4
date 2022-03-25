@@ -1,5 +1,5 @@
-import Album from "./components/Album";
-import spotify from "./data/songs.json";
+import Album from "./components/album";
+import Spotify from "./data/spotify";
 import "./App.css";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
       <header className="app-header"></header>
       <body className="app-body">
         <div className="album-container">
-          <Album image={spotify.album.images[0].url} name={spotify.album.name} type={spotify.album.type} artist={spotify.album.artists[0].name} />
+          <Album />
         </div>
       </body>
     </div>

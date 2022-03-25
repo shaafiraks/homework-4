@@ -2,12 +2,13 @@
   box-sizing: border-box;
 }
 .album-item {
-  max-width: 1000px;
+  max-width: 100%;
   min-width: 350px;
   border: 0px solid black;
   text-align: center;
   background-color: rgb(250, 187, 7);
   color: rgb(247, 246, 249);
+  padding: 20px;
 }
 
 .artist-name {
@@ -16,4 +17,9 @@
 }
 
 .album-image {
+  width: 350px;
+}
+
+.select-button {
+  font-family: "Poppins", sans-serif;
 }
