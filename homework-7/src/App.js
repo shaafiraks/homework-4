@@ -47,7 +47,7 @@ class App extends Component {
           return (
             <div key={item.id}>
               <img src={item.images[1].url} />
-              <p>artist:{item.artist[0].name}</p>
+              <p>artist:{item.artist[1].name}</p>
               <p>date:{item.release_date}</p>
               <p>title={item.name}</p>
             </div>
