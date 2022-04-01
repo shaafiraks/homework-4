@@ -6,9 +6,24 @@ function App() {
   const [access_token, setaccessToken] = useState("");
   const [searchResult, setsearchResult] = useState([]);
   const [searchQuery, setsearchQuery] = useState("");
+  const [listID, setlistID] = useState([]);
+
+  const CLIENT_ID = process.env.REACT_APP_SPOTIFY_API_KEY;
+  const REDIRECT_URL = `http://localhost:3000/callback/`;
+  const RESPONSE_TYPE = "token";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const SCOPE = "playlist-modify-private";
+  const SPOTIFY_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
+
+  const addID = (id) => {
+    setlistID((prevState) => [...prevState, id]);
+  };
+  const deleteID = (id) => {
+    setlistID((prevState) => prevState.filter((selectedID) => selectedID !== id));
+  };
 
   const handleAccess = () => {
-    window.location.href = `https://accounts.spotify.com/authorize?client_id=a62c7ba9e3b04ed593ed968fbeddcc1d&response_type=token&redirect_uri=http://localhost:3000&scope=playlist-modify-private`;
+    window.location.href = SPOTIFY_URL;
   };
 
   const handleSearch = useCallback(async () => {
@@ -33,7 +48,7 @@ function App() {
     if (token) {
       setaccessToken(token);
     }
-  });
+  }, []);
 
   return (
     <div className="App">
@@ -45,6 +60,7 @@ function App() {
             <p>{item.artists[0].name}</p>
             <p>{item.release_date}</p>
             <p>{item.name}</p>
+            <button onClick={() => (listID.includes(item.id) ? deleteID(item.id) : addID(item.id))}>{listID.includes(item.id) ? "Deselect" : "Select"}</button>
           </div>
         );
       })}

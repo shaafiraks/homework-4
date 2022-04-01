@@ -3,16 +3,14 @@ import { Component } from "react";
 function Search({ toggleFunction, handleSearch }) {
   return (
     <div>
-      <form>
-        <input placeholder="Search Here" onChange={(e) => toggleFunction(e.target.value)}></input>
-        <button
-          onClick={() => {
-            handleSearch();
-          }}
-        >
-          Search
-        </button>
-      </form>
+      <input placeholder="Search Here" onChange={(e) => toggleFunction(e.target.value)}></input>
+      <button
+        onClick={() => {
+          handleSearch();
+        }}
+      >
+        Search
+      </button>
     </div>
   );
 }
