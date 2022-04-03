@@ -1,12 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import "./App.css";
 import Search from "./pages/search";
+import axios from "axios";
+
+export const userID = createContext();
 
 function App() {
   const [access_token, setaccessToken] = useState("");
   const [searchResult, setsearchResult] = useState([]);
   const [searchQuery, setsearchQuery] = useState("");
   const [listID, setlistID] = useState([]);
+  const [userProfile, setuserProfile] = useState({});
 
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_API_KEY;
   const REDIRECT_URL = `http://localhost:3000/callback/`;
@@ -26,16 +30,26 @@ function App() {
     window.location.href = SPOTIFY_URL;
   };
 
-  const handleSearch = useCallback(async () => {
-    await fetch(`https://api.spotify.com/v1/search?q=${searchQuery.replaceAll(" ", "+")}&type=album&limit=12`, {
+  const handleSearch = async () => {
+    await fetch(`https://api.spotify.com/v1/search?q=${searchQuery.replaceAll(" ", "+")}&type=track&limit=12`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
     })
       .then((res) => res.json())
-      .then((res) => setsearchResult(res.albums.items));
-  });
+      .then((res) => setsearchResult(res.tracks.items));
+  };
+
+  const handleGetUserProfile = async (token) => {
+    await axios({
+      method: "GET",
+      url: "https://api.spotify.com/v1/me",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => setuserProfile(res.data));
+  };
 
   useEffect(() => {
     const token =
@@ -46,25 +60,34 @@ function App() {
         .find((elem) => elem.startsWith("access_token"))
         .replace("access_token=", "");
     if (token) {
+      handleGetUserProfile(token);
       setaccessToken(token);
     }
   }, []);
 
   return (
-    <div className="App">
-      {access_token === "" ? <button onClick={handleAccess}>login</button> : <Search handleSearch={handleSearch} toggleFunction={(value) => setsearchQuery(value)} />}
-      {searchResult.map((item) => {
-        return (
-          <div key={item.id}>
-            <img src={item.images[1].url} />
-            <p>{item.artists[0].name}</p>
-            <p>{item.release_date}</p>
-            <p>{item.name}</p>
-            <button onClick={() => (listID.includes(item.id) ? deleteID(item.id) : addID(item.id))}>{listID.includes(item.id) ? "Deselect" : "Select"}</button>
-          </div>
-        );
-      })}
-    </div>
+    <userID.Provider value={[userProfile.id, access_token]}>
+      <div className="App ">
+        {access_token === "" ? <button onClick={handleAccess}>Login With Spotify</button> : <Search handleSearch={handleSearch} toggleFunction={(value) => setsearchQuery(value)} />}
+        {searchResult.map((item) => {
+          return (
+            <div className="justify-between">
+              <div className="flex min-h-screen w-full items-center justify-center bg-slate-500" key={item.id}>
+                <div key={item.id} className="justify-center text-white">
+                  <img src={item.images[1].url} />
+                  <p>{item.artists[0].name}</p>
+                  <p>{item.album.release_date}</p>
+                  <p>{item.name}</p>
+                  <button className="bg-primary w-24 rounded-full text-black" onClick={() => (listID.includes(item.id) ? deleteID(item.id) : addID(item.id))}>
+                    {listID.includes(item.id) ? "Deselect" : "Select"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </userID.Provider>
   );
 }
 
