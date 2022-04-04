@@ -51,7 +51,7 @@ function CreatePlaylist() {
         name: formData.name,
         description: formData.desc,
         public: false,
-        collaborative: "playlist-modify-private",
+        collaborative: false,
       },
     }).then((res) => setCreatedPlaylist((prevState) => [...prevState, res.data]));
   };

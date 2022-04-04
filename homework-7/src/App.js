@@ -66,7 +66,7 @@ function App() {
   }, []);
 
   return (
-    <userID.Provider value={[userProfile.id, access_token]}>
+    <userID.Provider value={[userProfile.id, access_token, listID]}>
       <div className="App ">
         {access_token === "" ? <button onClick={handleAccess}>Login With Spotify</button> : <Search handleSearch={handleSearch} toggleFunction={(value) => setsearchQuery(value)} />}
         {searchResult.map((item) => {
@@ -74,7 +74,7 @@ function App() {
             <div className="justify-between">
               <div className="flex min-h-screen w-full items-center justify-center bg-slate-500" key={item.id}>
                 <div key={item.id} className="justify-center text-white">
-                  <img src={item.images[1].url} />
+                  <img src={item.album.images[1].url} />
                   <p>{item.artists[0].name}</p>
                   <p>{item.album.release_date}</p>
                   <p>{item.name}</p>
