@@ -1,10 +1,15 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import CreatePlaylist from "../../components/create-playlist";
+import { setSearch, setSearchQuery } from "../../SearchSlice";
+import { useDispatch } from "react-redux";
 
-function Search({ toggleFunction, handleSearch }) {
+function Search({ handleSearch }) {
+  const dispatch = useDispatch();
+  // const searchQuery = useSelector((state) => state.searchQuery.value);
+
   return (
     <div>
-      <input className="w-64 h-9 bg-gray-100 rounded-full " placeholder="Artits, songs, or podcasts " onChange={(e) => toggleFunction(e.target.value)}></input>
+      <input className="w-64 h-9 bg-gray-100 rounded-full " placeholder="Artits, songs, or podcasts " onChange={(e) => dispatch(setSearch(e.target.value))}></input>
       <button
         id="search-btn"
         className="-"

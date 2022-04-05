@@ -68,7 +68,7 @@ function CreatePlaylist() {
           <div>
             <label className="title-form text-[16px] font-medium text-primary">Title</label>
             <div className="">
-              <input name="name" className="bg-neutral-600 w-64 h-8 rounded" type="text" onChange={handleChange} min="10" placeholder="Add a title"></input>
+              <input name="name" className="bg-neutral-600 w-64 h-8 rounded" type="text" onChange={handleChange} placeholder="Add a title"></input>
             </div>
           </div>
 

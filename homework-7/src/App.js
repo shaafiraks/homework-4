@@ -2,13 +2,17 @@ import { createContext, useState, useEffect, useCallback } from "react";
 import "./App.css";
 import Search from "./pages/search";
 import axios from "axios";
+import { useSelector, Provider } from "react-redux";
+import SearchSlice from "./SearchSlice";
+import store from "./Store";
 
 export const userID = createContext();
 
 function App() {
   const [access_token, setaccessToken] = useState("");
-  const [searchResult, setsearchResult] = useState([]);
-  const [searchQuery, setsearchQuery] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  // const [searchQuery, setsearchQuery] = useState("");
+  const setSearchValue = useSelector((state) => state.search.setSearchValue);
   const [listID, setlistID] = useState([]);
   const [userProfile, setuserProfile] = useState({});
 
@@ -30,16 +34,16 @@ function App() {
     window.location.href = SPOTIFY_URL;
   };
 
-  const handleSearch = async () => {
-    await fetch(`https://api.spotify.com/v1/search?q=${searchQuery.replaceAll(" ", "+")}&type=track&limit=12`, {
+  const handleSearch = useCallback(async () => {
+    await fetch(`https://api.spotify.com/v1/search?q=${setSearchValue.replaceAll(" ", "+")}&type=track&limit=12`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
     })
       .then((res) => res.json())
-      .then((res) => setsearchResult(res.tracks.items));
-  };
+      .then((res) => setSearchResult(res.tracks.items));
+  }, [setSearchValue, access_token]);
 
   const handleGetUserProfile = async (token) => {
     await axios({
@@ -68,7 +72,7 @@ function App() {
   return (
     <userID.Provider value={[userProfile.id, access_token, listID]}>
       <div className="App ">
-        {access_token === "" ? <button onClick={handleAccess}>Login With Spotify</button> : <Search handleSearch={handleSearch} toggleFunction={(value) => setsearchQuery(value)} />}
+        {access_token === "" ? <button onClick={handleAccess}>Login With Spotify</button> : <Search handleSearch={handleSearch} toggleFunction={(value) => value(value)} />}
         {searchResult.map((item) => {
           return (
             <div className="justify-between">
