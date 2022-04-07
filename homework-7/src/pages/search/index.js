@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CreatePlaylist from "../../components/create-playlist";
-import { setSearch, setSearchQuery } from "../../SearchSlice";
+import { setSearch, setSearchQuery } from "../../reducers/SearchSlice";
 import { useDispatch } from "react-redux";
 
 function Search({ handleSearch }) {
