@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import CreatePlaylist from "../../components/create-playlist";
-import { setSearch, setSearchQuery } from "../../reducers/SearchSlice";
+import { setSearch } from "../../reducers/SearchSlice";
 import { useDispatch } from "react-redux";
 
-function Search({ handleSearch }) {
+function Search(handleSearch) {
   const dispatch = useDispatch();
   // const searchQuery = useSelector((state) => state.searchQuery.value);
 

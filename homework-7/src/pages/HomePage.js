@@ -2,14 +2,15 @@ import { createContext, useState, useEffect, useCallback } from "react";
 import "../../src/App.css";
 import Search from "./search";
 import axios from "axios";
-import { useSelector, Provider } from "react-redux";
-import SearchSlice from "../reducers/SearchSlice";
-import store from "../reducers/Store";
+import { useSelector, useDispatch } from "react-redux";
+import { setAccessToken } from "../reducers/accountSlice";
+import { useHistory } from "react-router-dom";
+import React from "react";
 
 export const userID = createContext();
 
-function HomePage() {
-  const [access_token, setaccessToken] = useState("");
+function Homepage() {
+  const access_token = useSelector((state) => state.account.accessToken);
   const [searchResult, setSearchResult] = useState([]);
   // const [searchQuery, setsearchQuery] = useState("");
   const setSearchValue = useSelector((state) => state.search.setSearchValue);
@@ -22,6 +23,10 @@ function HomePage() {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const SCOPE = "playlist-modify-private";
   const SPOTIFY_URL = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
+
+  const dispatch = useDispatch();
+
+  const history = useHistory();
 
   const addID = (id) => {
     setlistID((prevState) => [...prevState, id]);
@@ -63,9 +68,10 @@ function HomePage() {
         .split("&")
         .find((elem) => elem.startsWith("access_token"))
         .replace("access_token=", "");
+    console.log(history);
     if (token) {
       handleGetUserProfile(token);
-      setaccessToken(token);
+      dispatch(setAccessToken(token));
     }
   }, []);
 
@@ -75,9 +81,9 @@ function HomePage() {
         {access_token === "" ? <button onClick={handleAccess}>Login With Spotify</button> : <Search handleSearch={handleSearch} toggleFunction={(value) => value(value)} />}
         {searchResult.map((item) => {
           return (
-            <div className="justify-between">
+            <div key={item.id} className="justify-between">
               <div className="flex min-h-screen w-full items-center justify-center bg-slate-500" key={item.id}>
-                <div key={item.id} className="justify-center text-white">
+                <div className="justify-center text-white">
                   <img src={item.album.images[1].url} />
                   <p>{item.artists[0].name}</p>
                   <p>{item.album.release_date}</p>
@@ -150,4 +156,4 @@ function HomePage() {
 //   }
 // }
 
-export default HomePage;
+export default Homepage;
