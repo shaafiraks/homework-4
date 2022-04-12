@@ -15,4 +15,3 @@ export const accountSlice = createSlice({
 export const { setAccessToken } = accountSlice.actions;
 
 export default accountSlice.reducer;
-// ngetik apa aja

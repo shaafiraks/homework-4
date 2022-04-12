@@ -4,7 +4,7 @@ import axios from "axios";
 import PlaylistNew from "../PlaylistNew";
 
 function CreatePlaylist() {
-  const [userIDProfile, access_token, listID] = useContext(userID);
+  const [access_token, listID, , , userIDProfile] = useContext(userID);
   const [openForm, setOpenForm] = useState(false);
   const [createdPlaylist, setCreatedPlaylist] = useState([]);
   const addItem = async (id) => {

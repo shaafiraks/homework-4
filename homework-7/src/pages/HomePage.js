@@ -6,14 +6,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAccessToken } from "../reducers/accountSlice";
 import { useHistory } from "react-router-dom";
 import React from "react";
+import PlaylistNew from "../components/PlaylistNew";
 
 export const userID = createContext();
 
 function Homepage() {
   const access_token = useSelector((state) => state.account.accessToken);
-  const [searchResult, setSearchResult] = useState([]);
-  // const [searchQuery, setsearchQuery] = useState("");
-  const setSearchValue = useSelector((state) => state.search.setSearchValue);
+  // const [searchResult, setSearchResult] = useState([]);
+  // const setSearchValue = useSelector((state) => state.search.setSearchValue);
   const [listID, setlistID] = useState([]);
   const [userProfile, setuserProfile] = useState({});
 
@@ -39,16 +39,16 @@ function Homepage() {
     window.location.href = SPOTIFY_URL;
   };
 
-  const handleSearch = useCallback(async () => {
-    await fetch(`https://api.spotify.com/v1/search?q=${setSearchValue.replaceAll(" ", "+")}&type=track&limit=12`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => setSearchResult(res.tracks.items));
-  }, [setSearchValue, access_token]);
+  // const handleSearch = useCallback(async () => {
+  //   await fetch(`https://api.spotify.com/v1/search?q=${setSearchValue.replaceAll(" ", "+")}&type=track&limit=12`, {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${access_token}`,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => setSearchResult(res.tracks.items));
+  // }, [setSearchValue, access_token]);
 
   const handleGetUserProfile = async (token) => {
     await axios({
@@ -76,10 +76,18 @@ function Homepage() {
   }, []);
 
   return (
-    <userID.Provider value={[userProfile.id, access_token, listID]}>
-      <div className="App ">
-        {access_token === "" ? <button onClick={handleAccess}>Login With Spotify</button> : <Search handleSearch={handleSearch} toggleFunction={(value) => value(value)} />}
-        {searchResult.map((item) => {
+    <userID.Provider value={[access_token, listID, addID, deleteID, userProfile.id]}>
+      <div className="App bg-slate-600 bg-cover">
+        <div className="Login flex items-stretch">
+          {access_token === "" ? (
+            <button className="self-center" onClick={handleAccess}>
+              Login With Spotify
+            </button>
+          ) : (
+            <PlaylistNew />
+          )}
+        </div>
+        {/* {searchResult.map((item) => {
           return (
             <div key={item.id} className="justify-between">
               <div className="flex min-h-screen w-full items-center justify-center bg-slate-500" key={item.id}>
@@ -95,7 +103,7 @@ function Homepage() {
               </div>
             </div>
           );
-        })}
+        })} */}
       </div>
     </userID.Provider>
   );
