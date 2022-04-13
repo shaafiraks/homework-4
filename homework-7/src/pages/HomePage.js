@@ -77,10 +77,10 @@ function Homepage() {
 
   return (
     <userID.Provider value={[access_token, listID, addID, deleteID, userProfile.id]}>
-      <div className="App bg-slate-600 bg-cover">
-        <div className="Login flex items-stretch">
+      <div className="App bg-slate-600 bg-cover h-screen">
+        <div className="Login flex justify-center justify-items-center">
           {access_token === "" ? (
-            <button className="self-center" onClick={handleAccess}>
+            <button className="w-40 text-[white] bg-primary rounded-full" onClick={handleAccess}>
               Login With Spotify
             </button>
           ) : (
