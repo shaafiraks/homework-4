@@ -26,8 +26,6 @@ function Homepage() {
 
   const dispatch = useDispatch();
 
-  // test variable
-
   const history = useHistory();
 
   const addID = (id) => {
@@ -70,7 +68,7 @@ function Homepage() {
         .split("&")
         .find((elem) => elem.startsWith("access_token"))
         .replace("access_token=", "");
-    console.log(history);
+
     if (token) {
       handleGetUserProfile(token);
       dispatch(setAccessToken(token));

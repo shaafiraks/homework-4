@@ -7,22 +7,45 @@ import CreatePlaylist from "./components/create-playlist";
 import PlaylistNew from "./components/PlaylistNew";
 // import CreatePlaylistPage from "./pages/CreatePlaylistPage";
 
+// export default function App() {
+//   const isLoggedIn = useSelector((state) => state.account.accessToken);
+//   // console.log(isLoggedIn);
+//   return (
+//     <Router>
+//       <Switch>
+//         <Route path="/create-playlist">{isLoggedIn ? <CreatePlaylist /> : <Redirect to="/" />}</Route>
+//         <Route path="/">{!isLoggedIn ? <Homepage /> : <Redirect to="/create-playlist" />}</Route>
+//       </Switch>
+
+//     </Router>
+//   );
+// }
+
+// export default function App() {
+//   const isLoggedIn = useSelector((state) => state.account.accessToken);
+//   // console.log(isLoggedIn);
+//   return (
+//     <Router>
+//       <Switch>
+//         <Route path="/create-playlist">{isLoggedIn ? <PlaylistNew /> : <Redirect exact from="/create-playlist" to="/" />}</Route>
+//         <Route exact path="/">
+//           <Homepage />
+//         </Route>
+//       </Switch>
+//     </Router>
+//   );
+// }
+
 export default function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   console.log(isLoggedIn);
-
   return (
     <Router>
       <Switch>
-        {/* <Route path="/">{!isLoggedIn ? <Homepage /> : <Redirect to="/create-playlist" />}</Route> */}
+        <Route path="/create-playlist">{isLoggedIn ? <PlaylistNew /> : <Redirect exact from="/" to="/create-playlist" />}</Route>
+        <Route path="/">{!isLoggedIn ? <Homepage /> : <Redirect to="/create-playlist" />}</Route>
         <Route exact path="/">
           <Homepage />
-          {/* <PlaylistNew /> */}
-          <h1>Router 1</h1>
-        </Route>
-        <Route path="/callback/">
-          <PlaylistNew />
-          {/* <h1>Router 2</h1> */}
         </Route>
       </Switch>
     </Router>
