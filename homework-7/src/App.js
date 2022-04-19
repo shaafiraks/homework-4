@@ -37,7 +37,7 @@ import PlaylistNew from "./components/PlaylistNew";
 // }
 
 export default function App() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const isLoggedIn = localStorage.getItem("token");
   console.log(isLoggedIn);
   return (
     <Router>

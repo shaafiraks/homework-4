@@ -68,7 +68,7 @@ function Homepage() {
         .split("&")
         .find((elem) => elem.startsWith("access_token"))
         .replace("access_token=", "");
-
+    localStorage.setItem('token', token)
     if (token) {
       handleGetUserProfile(token);
       dispatch(setAccessToken(token));
